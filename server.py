@@ -50,8 +50,6 @@ The "data" subchunk contains the size of the data and the actual sound:
 44        *   Data             The actual sound data.
 """
 
-
-
 class WaveSound(object):
     raw_data=b""
     length=0
@@ -162,6 +160,7 @@ class WaveGenerator():
 
 v=WaveGenerator().sinusoid(sample_rate=44100,time=1000,freq=440)
 v.save("hello.wav")
+
 """
 dat=v.get_data_as_int_array()
 print(dat)
