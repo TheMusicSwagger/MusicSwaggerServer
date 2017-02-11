@@ -1,4 +1,4 @@
-SERVER_HOSTNAME="musicswagger_server"
+SERVER_HOSTNAME="main-swag-machine"#"musicswagger_server"
 # hostname du server
 SERVER_PORT=55666
 # port du server
