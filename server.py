@@ -1,6 +1,8 @@
-import socket,threading
+import socket,threading,binascii
 import config as cfg
+import pymysql as psql
 
+db = psql.connect("localhost","root","thomas","musicswagger_config" )
 
 class CommunicatorServer(threading.Thread):
     is_running=None
@@ -27,8 +29,18 @@ class CommunicatorServer(threading.Thread):
                     cfg.log("Info :",ppacket[2])
                 elif ppacket[1]==0x01:
                     cfg.log("Ask for CUID :",ppacket[2])
-                    self.send(0xff,0x02,address[0],b'\x01')
-                    # donne toujours 1 -> besoin de db pour savoir lesquels sont disponibles
+                    cursor = db.cursor()
+                    cursor.execute("SELECT CUID from connections")
+                    dat = cursor.fetchall()
+                    cursor.close()
+                    for i in range(0x01,0xFF):
+                        if not i in dat:
+                            cursor = db.cursor()
+                            cursor.execute("SELECT CUID from connections")
+                            cursor.execute("INSERT INTO connections (GUID,CUID) VALUES ('"+binascii.hexlify(ppacket[2]).decode("ascii")+"',"+str(i)+")")
+                            cursor.close()
+                            self.send(0xff,0x02,address[0],i.to_bytes(1,"big"))
+                            break
                 elif ppacket[1]==0x03:
                     cfg.log("Ask for SPEC")
                     self.send(ppacket[0],0x04,address[0],b'')
@@ -117,3 +129,5 @@ try:
     server.join()
 except KeyboardInterrupt:
     server.stop()
+    cursor.close()
+    db.close()
