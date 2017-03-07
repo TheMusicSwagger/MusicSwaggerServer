@@ -2,7 +2,7 @@ import socket,threading,binascii
 import config as cfg
 import pymysql as psql
 
-db = psql.connect("localhost","root","thomas","musicswagger_config" )
+db = psql.connect("localhost","root","thomas","musicswagger_config")
 
 class CommunicatorServer(threading.Thread):
     is_running=None
@@ -129,5 +129,3 @@ try:
     server.join()
 except KeyboardInterrupt:
     server.stop()
-    cursor.close()
-    db.close()
