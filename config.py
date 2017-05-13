@@ -1,10 +1,20 @@
-SERVER_HOSTNAME = "main-swag-machine"  # "musicswagger_server"
+import sounds as sd
+h=  "musicswagger_server"
 # hostname du server
 SERVER_PORT = 55666
 # port du server
 DEBUG_MODE = True
 # mode debug
 MAX_PACKET_SIZE = 512
+
+
+# db specs
+modifiers={
+    "PITCH":sd.PitchModifier,
+    "ADD":sd.AddModifier,
+    "VOL":None
+}
+
 
 
 # taille maximum d'un packet en bytes

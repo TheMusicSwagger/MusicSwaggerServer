@@ -137,10 +137,11 @@ dsp.close()
 
 player = SoundPlayer()
 try:
-    """
+
     while True:
         player.play(sg.WaveGenerator().sinusoid(50,freq=random.randint(20,20000)))
         time.sleep(0.05)
+
     """
     sound1 = sg.WaveGenerator().sinusoid(1000)
     sound2 = sg.WaveGenerator().sinusoid(1000, freq=500)
@@ -149,6 +150,8 @@ try:
     player.play(sound2)
     player.play(sound3)
     player.play(sound1.add(sound2).add(sound3))
+
+    """
     player.kill(False)
 except KeyboardInterrupt:
     pass

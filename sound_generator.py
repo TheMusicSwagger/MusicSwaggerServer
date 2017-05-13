@@ -279,16 +279,25 @@ class WaveSound(object):
         return [e for e in self.get_data()]
 
     def add(self, sound, fac=0.5):
+        return self.add_part(sound,0,fac)
+
+    def add_part(self,sound,pos,fac=0.5):
         assert self.get_samplerate() == sound.get_samplerate()
         assert self.get_bitpersample() == sound.get_bitpersample()
         assert self.get_num_channels() == sound.get_num_channels()
-        assert self.get_length() == sound.get_length()
         new_data = b''
-        for i in range(self.get_length()):
-            new_data += int((self.get_value(i) * (1 - fac)) + (sound.get_value(i) * (fac))).to_bytes(
+        for i in range(pos):
+            new_data += int(self.get_value(i).to_bytes(self.get_bitpersample() // 8, "big"))
+        for i in range(pos,pos+sound.get_length()):
+            if i>self.get_length():
+                break
+            new_data += int((self.get_value(i) * (1 - fac)) + (sound.get_value(i-pos) * (fac))).to_bytes(
                 self.get_bitpersample() // 8, "big")
+        for i in range(pos+sound.get_length(),self.get_length()):
+            new_data += int(self.get_value(i).to_bytes(self.get_bitpersample() // 8, "big"))
         self.set_data(new_data)
         return self
+
 
 
 class WaveGenerator():
