@@ -1,3 +1,2 @@
 # MusicSwaggerServer
-This is the server part of our MusicSwagger software !
-This works !
+DEPRECATED ! -> https://github.com/TheMusicSwagger/Server
